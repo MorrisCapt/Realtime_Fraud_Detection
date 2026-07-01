@@ -1,0 +1,12 @@
+{
+  "pr_auc": 0.1784,
+  "roc_auc": 0.7839,
+  "recall_at_top_5pct": 0.2834,
+  "recall_at_top_10pct": 0.431,
+  "mean_predicted_prob": 0.2898,
+  "actual_fraud_rate": 0.0381,
+  "best_threshold": 0.7087,
+  "best_f1": 0.2523,
+  "val_size": 24362,
+  "val_fraud_count": 928
+}

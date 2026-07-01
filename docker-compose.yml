@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+
+  # ─────────────────────────────────────────
+  # Part B — FastAPI fraud-scoring service
+  # ─────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: umba_api
+    ports:
+      - "8000:8000"        # http://localhost:8000
+    volumes:
+      - ./model:/app/model  # mount trained model so you don't rebuild image after retraining
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ─────────────────────────────────────────
+  # Part C — Streamlit operations dashboard
+  # ─────────────────────────────────────────
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    container_name: umba_dashboard
+    ports:
+      - "8501:8501"        # http://localhost:8501
+    volumes:
+      - ./model:/app/model
+      - ./predictions.csv:/app/predictions.csv
+    depends_on:
+      - api
+    restart: unless-stopped

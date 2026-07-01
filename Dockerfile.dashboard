@@ -1,0 +1,22 @@
+# Dockerfile.dashboard — Streamlit operations dashboard
+FROM python:3.11-slim
+
+# Install libgomp — required by LightGBM
+RUN apt-get update && apt-get install -y libgomp1 && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir --timeout=300 numpy pandas scikit-learn lightgbm \
+    streamlit matplotlib
+
+COPY preprocess.py .
+COPY dashboard/ ./dashboard/
+COPY model/ ./model/
+COPY data/test.csv ./data/test.csv
+COPY predictions.csv .
+
+EXPOSE 8501
+
+CMD ["streamlit", "run", "dashboard/app.py", \
+     "--server.port=8501", "--server.address=0.0.0.0"]
