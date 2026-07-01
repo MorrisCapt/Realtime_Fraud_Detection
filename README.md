@@ -1,7 +1,6 @@
 # Umba Fraud Detection 
 
-**Candidate:** Morris Maina
-**Role:** Data Scientist
+Morris Maina | Data Scientist
 
 ---
 
